@@ -49,6 +49,28 @@ module.exports = function (app, swig) {
             res.send(errorResponse);
     });
 
+    app.get("/autores/filtrar/:rol", function (req, res) {
+        let autores = [{
+            nombre: "Lars Ulrich",
+            grupo: "Metallica",
+            rol:"batería"
+        }, {
+            nombre: "Eddie Van Halen",
+            grupo: "Van Halen",
+            rol:"guitarrista"
+        },{
+            nombre: "Fito Cabrales",
+            grupo: "Platero y tu",
+            rol:"cantante"
+        }];
+
+        let respuesta = swig.renderFile("views/autores.html", {
+            autores: autores.filter(autor => autor.rol === req.params.rol)
+        });
+
+        res.send(respuesta);
+    });
+
     app.get('/autores/*', function(req, res) {
         res.redirect("/autores");
     });
