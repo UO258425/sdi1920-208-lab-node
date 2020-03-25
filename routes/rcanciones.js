@@ -1,4 +1,4 @@
-module.exports = function (app, swig, mongo) {
+module.exports = function (app, swig, gestorBD) {
 
     app.get("/canciones", function (req, res) {
         let canciones = [{
@@ -21,12 +21,9 @@ module.exports = function (app, swig, mongo) {
     });
 
     app.get('/canciones/agregar', function (req, res) {
-        let respuesta = swig.renderFile('views/bagregar.html', {
-
-        });
+        let respuesta = swig.renderFile('views/bagregar.html', {});
         res.send(respuesta);
     })
-
 
 
     app.get('/canciones/:id', function (req, res) {
@@ -40,24 +37,17 @@ module.exports = function (app, swig, mongo) {
 
     app.post("/cancion", function (req, res) {
         let cancion = {
-            nombre:req.body.nombre,
-            genero:req.body.genero,
-            precio:req.body.precio
+            nombre: req.body.nombre,
+            genero: req.body.genero,
+            precio: req.body.precio
         }
 
-        mongo.MongoClient.connect(app.get('db'), function(err, db) {
-            if (err) {
-                res.send("Error de conexión: " + err);
+        // Conectarse
+        gestorBD.insertarCancion(cancion, function (id) {
+            if (id == null) {
+                res.send("Error al insertar canción");
             } else {
-                let collection = db.collection('canciones');
-                collection.insert(cancion, function(err, result) {
-                    if (err) {
-                        res.send("Error al insertar " + err);
-                    } else {
-                        res.send("Agregada id: "+ result.ops[0]._id);
-                    }
-                    db.close();
-                });
+                res.send("Agregada la canción ID: " + id);
             }
         });
     });
