@@ -1,6 +1,16 @@
 //Módulos
 let express = require('express');
 let app = express();
+
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
+let crypto = require('crypto');
+
 let fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
@@ -21,6 +31,9 @@ app.use(express.static('public'));
 
 app.set('port', 8081);
 app.set('db','mongodb://tiendamusicaadmin:7UsGPXKsQxHD1xO5@tiendamusica-shard-00-00-uchuk.mongodb.net:27017,tiendamusica-shard-00-01-uchuk.mongodb.net:27017,tiendamusica-shard-00-02-uchuk.mongodb.net:27017/test?ssl=true&replicaSet=tiendamusica-shard-0&authSource=admin&retryWrites=true');
+app.set('clave','abcdefg');
+app.set('crypto',crypto);
+
 require("./routes/rusuarios.js")(app, swig, gestorBD);
 require("./routes/rcanciones.js")(app, swig, gestorBD);
 require("./routes/rautores.js")(app, swig);
