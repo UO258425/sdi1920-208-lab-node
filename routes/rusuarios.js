@@ -19,7 +19,7 @@ module.exports = function (app, swig, gestorBD) {
             if (id == null){
                 res.send("Error al insertar el usuario");
             } else {
-                res.send('Usuario Insertado ' + id);
+                res.redirect('/identificarse');
             }
         });
     });
@@ -43,8 +43,7 @@ module.exports = function (app, swig, gestorBD) {
             } else {
                 req.session.usuario = usuarios[0].email;
                 req.session.favoritos = [];
-                //res.send("identificado");
-                res.redirect("/tienda");
+                res.redirect("/publicaciones");
             }
         });
     });
