@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %} Mis favoritos {% endblock %}
+{% block contenido_principal %}
+
+<h2>Mis favoritos</h2>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Precio</th>
+            <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for favorito in favoritos %}
+        <tr>
+            <td>{{ favorito.titulo }}</td>
+            <td>{{ favorito.precio }} €</td>
+            <td><a href="/favoritos/eliminar/{{ favorito._id.toString() }}">Eliminar</a> <br></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive">
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Total:</th>
+        <th>{{total}} €</th>
+    </tr>
+    </thead>
+</table>
+</div>

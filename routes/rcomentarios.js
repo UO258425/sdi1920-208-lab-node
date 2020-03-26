@@ -32,7 +32,7 @@ module.exports = function (app, swig, gestorDB) {
                     if (isDeleted == false) {
                         res.send("Error al borrar comentario");
                     } else {
-                        //res.redirect("/tienda");
+
                         res.redirect("/cancion/" + cancion_id);
                     }
                 });

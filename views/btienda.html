@@ -29,6 +29,9 @@
                 <div class="small"> {{ cancion.autor }}</div>
                 <div class="text-right">{{ cancion.precio }} €</div>
             </a></div>
+        <div>
+            <a href="/favoritos/add/{{ cancion._id.toString() }}">Añadir a favoritos</a>
+        </div>
     </div>
     {% endfor%}
     <!--Fin delBloque canción-->
