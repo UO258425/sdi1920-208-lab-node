@@ -29,7 +29,8 @@ module.exports = function (app, swig, gestorBD) {
                     let respuesta = swig.renderFile('views/bcancion.html',
                         {
                             cancion: canciones[0],
-                            comentarios: comentarios
+                            comentarios: comentarios,
+                            sesion: req.session.usuario
                         });
                     res.send(respuesta);
                 });

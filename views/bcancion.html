@@ -51,6 +51,11 @@
         <tr>
             <td class="col-md-4">{{ comentario.autor }}</td>
             <td>{{ comentario.texto }}</td>
+            {% if comentario.autor === sesion %}
+                <td><a href="/comentario/borrar/{{ comentario._id.toString() }}">Borrar</a></td>
+            {% else %}
+                <td></td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
