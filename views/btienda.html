@@ -24,7 +24,7 @@
     <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div style="width: 200px">
             <a href="/cancion/{{ cancion._id.toString() }}">
-                <img src="/portadas/{{ cancion._id.toString() }}.png" alt="logo"/><!--http://www.socicon.com/generator.php  -->
+                <img style="max-width:200px;width:200px" src="/portadas/{{ cancion._id.toString() }}.png" alt="logo"/><!--http://www.socicon.com/generator.php  -->
                 <div class="wrap">{{ cancion.nombre }}</div>
                 <div class="small"> {{ cancion.autor }}</div>
                 <div class="text-right">{{ cancion.precio }} €</div>
