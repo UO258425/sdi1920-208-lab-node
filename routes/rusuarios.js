@@ -17,7 +17,7 @@ module.exports = function (app, swig, gestorBD) {
         }
         gestorBD.insertarUsuario(usuario, function (id) {
             if (id == null) {
-                res.redirect("/registrarse?mensaje=Error al registrar usuario");
+                res.redirect("/error?mensaje=Error al registrar usuario");
             } else {
                 res.redirect('/identificarse?mensaje=Nuevo usuario registrado');
             }
@@ -39,7 +39,7 @@ module.exports = function (app, swig, gestorBD) {
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 req.session.usuario = null;
-                res.redirect("/identificarse" +
+                res.redirect("/error" +
                     "?mensaje=Email o password incorrecto" +
                     "&tipoMensaje=alert-danger ");
             } else {

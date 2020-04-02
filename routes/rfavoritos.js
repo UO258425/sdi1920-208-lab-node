@@ -24,7 +24,7 @@ module.exports = function (app, swig, gestorDB) {
 
         gestorDB.obtenerCanciones(criterio, function (canciones) {
             if (canciones[0] === null)
-                res.send("Error: la cancion no existe");
+                res.send("/error?mensaje=Error: la cancion no existe");
             else {
                 if (req.session.favoritos.filter(x => x._id === req.params.cancion_id).length != 0) {
                     res.redirect("/tienda");
