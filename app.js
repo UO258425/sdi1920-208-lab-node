@@ -102,7 +102,7 @@ app.use("/audios/", routerAudios);
 app.use(express.static('public'));
 
 app.set('port', 8081);
-app.set('db', 'mongodb://tiendamusicaadmin:7UsGPXKsQxHD1xO5@tiendamusica-shard-00-00-uchuk.mongodb.net:27017,tiendamusica-shard-00-01-uchuk.mongodb.net:27017,tiendamusica-shard-00-02-uchuk.mongodb.net:27017/test?ssl=true&replicaSet=tiendamusica-shard-0&authSource=admin&retryWrites=true');
+app.set('db', 'mongodb://tiendamusicaadmin:W7JGi4N9Eweik1q8@tiendamusica-shard-00-00-uchuk.mongodb.net:27017,tiendamusica-shard-00-01-uchuk.mongodb.net:27017,tiendamusica-shard-00-02-uchuk.mongodb.net:27017/test?ssl=true&replicaSet=tiendamusica-shard-0&authSource=admin&retryWrites=true');
 app.set('clave', 'abcdefg');
 app.set('crypto', crypto);
 
