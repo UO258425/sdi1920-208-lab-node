@@ -42,8 +42,8 @@
 <div class="container">
 
     <script>
-        var mensaje = getUrlParameter('mensaje');
-        var tipoMensaje = getUrlParameter('tipoMensaje');
+        var mensaje = "{{mensaje}}";
+        var tipoMensaje = "{{tipoMensaje}}";
         if (mensaje != "") {
             if (tipoMensaje == "") {
                 tipoMensaje = 'alert-info';

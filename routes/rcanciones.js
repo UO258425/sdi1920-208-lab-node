@@ -241,7 +241,9 @@ module.exports = function (app, swig, gestorBD) {
                     }
                 });
             } else {
-                res.redirect("/cancion/" + req.params.id.toString() + "?mensaje=La canción no se pudo comprar&tipoMensaje=alert-danger");
+                req.session.mensaje = "La cancion no se pudo comprar";
+                req.session.tipoMensaje = "alert-danger";
+                res.redirect("/cancion/" + req.params.id.toString());
             }
         });
 

@@ -17,15 +17,22 @@ module.exports = function (app, swig, gestorBD) {
         }
         gestorBD.insertarUsuario(usuario, function (id) {
             if (id == null) {
-                res.redirect("/error?mensaje=Error al registrar usuario");
+                req.session.mensaje = "Error al registrar usuario";
+                req.session.tipoMensaje = "alert-danger";
+                res.redirect("/error");
             } else {
-                res.redirect('/identificarse?mensaje=Nuevo usuario registrado');
+                req.session.mensaje = "Nuevo usuario registrado";
+                req.session.tipoMensaje = "alert-success";
+                res.redirect('/identificarse');
             }
         });
     });
 
     app.get("/identificarse", function (req, res) {
-        let respuesta = swig.renderFile('views/bidentificacion.html', {});
+        let respuesta = swig.renderFile('views/bidentificacion.html',  {
+            mensaje:req.session.mensaje,
+            tipoMensaje:req.session.tipoMensaje
+        });
         res.send(respuesta);
     });
 
@@ -39,9 +46,9 @@ module.exports = function (app, swig, gestorBD) {
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 req.session.usuario = null;
-                res.redirect("/error" +
-                    "?mensaje=Email o password incorrecto" +
-                    "&tipoMensaje=alert-danger ");
+                req.session.mensaje = "Email o password incorrecto";
+                req.session.tipoMensaje = "alert-danger";
+                res.redirect("/error");
             } else {
                 req.session.usuario = usuarios[0].email;
                 req.session.favoritos = [];

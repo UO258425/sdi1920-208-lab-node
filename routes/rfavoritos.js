@@ -23,8 +23,11 @@ module.exports = function (app, swig, gestorDB) {
         let criterio = {"_id": gestorDB.mongo.ObjectID(req.params.cancion_id)};
 
         gestorDB.obtenerCanciones(criterio, function (canciones) {
-            if (canciones[0] === null)
-                res.send("/error?mensaje=Error: la cancion no existe");
+            if (canciones[0] === null) {
+                req.session.mensaje = "La cancion no existe";
+                req.session.tipoMensaje = "alert-danger";
+                res.send("/error");
+            }
             else {
                 if (req.session.favoritos.filter(x => x._id === req.params.cancion_id).length != 0) {
                     res.redirect("/tienda");
