@@ -37,20 +37,32 @@ module.exports = function (app, swig, gestorBD) {
     app.get('/cancion/:id', function (req, res) {
         let criterio = {"_id": gestorBD.mongo.ObjectID(req.params.id)};
         gestorBD.obtenerCanciones(criterio, function (canciones) {
-            if (canciones == null) {
-                res.send(respuesta);
+            if (canciones == null || canciones.length == 0) {
+                req.session.mensaje = "La canción no existe";
+                req.session.tipoMensaje = "alert-danger";
+                res.redirect("/error");
             } else {
                 checkIfPurchasable(req.session.usuario, gestorBD.mongo.ObjectID(req.params.id), function (isPurchasable) {
                     let criterio = {"cancion_id": gestorBD.mongo.ObjectID(req.params.id)};
                     gestorBD.obtenerComentarios(criterio, function (comentarios) {
+                        let mensaje = req.session.mensaje;
+                        let tipoMensaje = req.session.tipoMensaje;
+
                         let respuesta = swig.renderFile('views/bcancion.html',
                             {
                                 cancion: canciones[0],
                                 comentarios: comentarios,
                                 sesion: req.session.usuario,
-                                isPurchasable: isPurchasable
+                                isPurchasable: isPurchasable,
+                                mensaje:mensaje,
+                                tipoMensaje:tipoMensaje
                             });
+                        console.log(req.session.mensaje);
+                        req.session.mensaje = null;
+                        console.log(req.session.mensaje);
+                        req.session.tipoMensaje=null;
                         res.send(respuesta);
+
                     });
                 });
             }
@@ -242,7 +254,7 @@ module.exports = function (app, swig, gestorBD) {
                 });
             } else {
                 req.session.mensaje = "La cancion no se pudo comprar";
-                req.session.tipoMensaje = "alert-danger";
+                req.session.tipoMensaje = "alert-warning";
                 res.redirect("/cancion/" + req.params.id.toString());
             }
         });
