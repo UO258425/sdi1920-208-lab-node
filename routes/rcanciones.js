@@ -37,7 +37,7 @@ module.exports = function (app, swig, gestorBD) {
     app.get('/cancion/:id', function (req, res) {
         let criterio = {"_id": gestorBD.mongo.ObjectID(req.params.id)};
         gestorBD.obtenerCanciones(criterio, function (canciones) {
-            if (canciones == null || canciones.length == 0) {
+            if (canciones == null || canciones.length === 0) {
                 req.session.mensaje = "La canción no existe";
                 req.session.tipoMensaje = "alert-danger";
                 res.redirect("/error");
@@ -47,22 +47,36 @@ module.exports = function (app, swig, gestorBD) {
                     gestorBD.obtenerComentarios(criterio, function (comentarios) {
                         let mensaje = req.session.mensaje;
                         let tipoMensaje = req.session.tipoMensaje;
-
-                        let respuesta = swig.renderFile('views/bcancion.html',
-                            {
-                                cancion: canciones[0],
-                                comentarios: comentarios,
-                                sesion: req.session.usuario,
-                                isPurchasable: isPurchasable,
-                                mensaje:mensaje,
-                                tipoMensaje:tipoMensaje
-                            });
-                        console.log(req.session.mensaje);
-                        req.session.mensaje = null;
-                        console.log(req.session.mensaje);
-                        req.session.tipoMensaje=null;
-                        res.send(respuesta);
-
+                        var configuracion = {
+                            url: "https://api.exchangeratesapi.io/latest?base=EUR",
+                            method: "get",
+                            headers: {
+                                "token": "ejemplo",
+                            }
+                        };
+                        var rest = app.get("rest");
+                        rest(configuracion, function (error, response, body) {
+                            console.log("cod: " + response.statusCode + " Cuerpo :" + body);
+                            var objetoRespuesta = JSON.parse(body);
+                            var cambioUSD = objetoRespuesta.rates.USD;
+                            // nuevo campo "usd"
+                            canciones[0].usd = cambioUSD * canciones[0].precio;
+                            canciones[0].usd = canciones[0].usd.toFixed(2);
+                            let respuesta = swig.renderFile('views/bcancion.html',
+                                {
+                                    cancion: canciones[0],
+                                    comentarios: comentarios,
+                                    sesion: req.session.usuario,
+                                    isPurchasable: isPurchasable,
+                                    mensaje: mensaje,
+                                    tipoMensaje: tipoMensaje
+                                });
+                            console.log(req.session.mensaje);
+                            req.session.mensaje = null;
+                            console.log(req.session.mensaje);
+                            req.session.tipoMensaje = null;
+                            res.send(respuesta)
+                        });
                     });
                 });
             }
