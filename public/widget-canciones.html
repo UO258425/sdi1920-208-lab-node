@@ -7,7 +7,7 @@
         <thead>
         <tr>
             <th><a onclick="ordenarPorNombre()">Nombre</a></th>
-            <th>Genero</th>
+            <th><a onclick="ordenarPorGenero()">Género</a></th>
             <th><a onclick="ordenarPorPrecio()">Precio</a></th>
             <th class="col-md-1"></th>
         </tr>
@@ -81,7 +81,8 @@
                 $( "#"+_id ).remove(); // eliminar el <tr> de la canción
             },
             error : function (error){
-                $( "#contenedor-principal" ).load("widget-login.html");
+                $('#error-agregar').remove();
+                $("#widget-canciones").prepend("<div id='error-agregar' class='alert alert-danger'>"+"Error: "+ error.responseJSON.error+"</div>");
             }
         });
     }
@@ -95,7 +96,7 @@
         var nombreFiltro = $("#filtro-nombre").val();
 
         for (i = 0; i < canciones.length; i++) {
-            if (canciones[i].nombre.indexOf(nombreFiltro) != -1 ){
+            if (canciones[i].nombre.indexOf(nombreFiltro) !== -1 ){
                 cancionesFiltradas.push(canciones[i]);
             }
         }
@@ -117,6 +118,9 @@
         actualizarTabla(canciones);
         precioDsc = !precioDsc; //invertir
     }
+
+
+
     function ordenarPorNombre(){
         canciones.sort(function(a, b) {
             if(a.nombre > b.nombre ) return 1;

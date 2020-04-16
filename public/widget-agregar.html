@@ -43,7 +43,9 @@
 
             },
             error : function (error){
-                $( "#contenedor-principal" ).load("widget-login.html");
+                //$( "#contenedor-principal" ).load("widget-login.html");
+                $('#error-agregar').remove();
+                $("#widget-agregar").prepend("<div id='error-agregar' class='alert alert-danger'>"+"Error: "+ error.responseJSON.error+"</div>");
             }
         });
     }
